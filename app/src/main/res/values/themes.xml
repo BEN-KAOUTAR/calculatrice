@@ -7,28 +7,33 @@
     </style>
 
     <style name="Theme.MyAppCalcul" parent="Base.Theme.MyAppCalcul" />
+
+    <!-- Responsive button: fills grid rows/cols via rowWeight + columnWeight -->
     <style name="CalcButtonBlue">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_height">0dp</item>
         <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_rowWeight">1</item>
         <item name="android:background">@drawable/button_scientific</item>
         <item name="android:backgroundTint">@null</item>
-        <item name="android:textColor">#000000</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#1C344D</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:gravity">center</item>
-        <item name="android:layout_margin">5dp</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:layout_margin">3dp</item>
         <item name="android:elevation">4dp</item>
         <item name="android:stateListAnimator">@null</item>
     </style>
+
     <style name="CalcButtonDark" parent="CalcButtonBlue">
         <item name="android:background">@drawable/button_numeby</item>
         <item name="android:textColor">#FFFFFF</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="CalcButtonOrange" parent="CalcButtonBlue">
         <item name="android:background">@drawable/button_orange</item>
-        <item name="android:textColor">#000000</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#1C344D</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

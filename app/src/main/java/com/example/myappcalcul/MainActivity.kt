@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupScientificButtons() {
         findViewById<Button>(R.id.btnSqrt).setOnClickListener {
-            addFunction("sqrt(")
+            addFunction("√(")
         }
         findViewById<Button>(R.id.btnX2).setOnClickListener {
             if (currentExpression.isNotEmpty()) {
@@ -205,13 +205,13 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnSin).setOnClickListener { addFunction("sin(") }
         findViewById<Button>(R.id.btnCos).setOnClickListener { addFunction("cos(") }
         findViewById<Button>(R.id.btnTan).setOnClickListener { addFunction("tan(") }
-        findViewById<Button>(R.id.btnSinInv).setOnClickListener { addFunction("asin(") }
-        findViewById<Button>(R.id.btnCosInv).setOnClickListener { addFunction("acos(") }
-        findViewById<Button>(R.id.btnTanInv).setOnClickListener { addFunction("atan(") }
+        findViewById<Button>(R.id.btnSinInv).setOnClickListener { addFunction("sin⁻¹(") }
+        findViewById<Button>(R.id.btnCosInv).setOnClickListener { addFunction("cos⁻¹(") }
+        findViewById<Button>(R.id.btnTanInv).setOnClickListener { addFunction("tan⁻¹(") }
         findViewById<Button>(R.id.btnLog).setOnClickListener { addFunction("log(") }
         findViewById<Button>(R.id.btnLn).setOnClickListener { addFunction("ln(") }
         findViewById<Button>(R.id.btn10x).setOnClickListener { addFunction("10^(") }
-        findViewById<Button>(R.id.btnEx).setOnClickListener { addFunction("exp(") }
+        findViewById<Button>(R.id.btnEx).setOnClickListener { addFunction("e^(") }
         findViewById<Button>(R.id.btnPow).setOnClickListener {
             if (currentExpression.isNotEmpty()) {
                 currentExpression += "^"
@@ -224,7 +224,7 @@ class MainActivity : AppCompatActivity() {
                 updateDisplay()
             }
         }
-        findViewById<Button>(R.id.btnAbs).setOnClickListener { addFunction("abs(") }
+        findViewById<Button>(R.id.btnAbs).setOnClickListener { addFunction("Abs(") }
         findViewById<Button>(R.id.btnOpen).setOnClickListener {
             if (isResultShown) {
                 currentExpression = "("
@@ -398,8 +398,20 @@ class MainActivity : AppCompatActivity() {
         var expression = expr
             .replace("×", "*")
             .replace("÷", "/")
-            .replace("π", Math.PI.toString())
+            .replace("sin⁻¹", "asin")
+            .replace("cos⁻¹", "acos")
+            .replace("tan⁻¹", "atan")
+            .replace("√", "sqrt")
+            .replace("e^", "exp")
+            .replace("Abs", "abs")
             .replace(" ", "")
+
+        // Add implicit multiplication while π is still a symbol
+        expression = addImplicitMultiplication(expression)
+
+        expression = expression
+            .replace("π", Math.PI.toString())
+            .replace("Π", Math.PI.toString())
 
         expression = replaceEConstant(expression)
 
@@ -408,6 +420,42 @@ class MainActivity : AppCompatActivity() {
         expression = processFactorials(expression)
 
         return evaluateSimpleExpression(expression)
+    }
+
+    private fun addImplicitMultiplication(expr: String): String {
+        val sb = StringBuilder()
+        for (i in expr.indices) {
+            val c = expr[i]
+            sb.append(c)
+            if (i < expr.length - 1) {
+                val next = expr[i + 1]
+
+                // Standalone variables or brackets
+                val isCurrentOperand = c.isDigit() || c == ')' || c == 'e' || c == '!' || c == '.' || c == 'π' || c == 'Π'
+                val isNextOpener = next == '(' || next == 'e' || next == 'π' || next == 'Π' || next.isLetter()
+                val isCurrentRightBracketOrConst = c == ')' || c == '!' || c == 'π' || c == 'Π'
+                val isNextDigit = next.isDigit()
+
+                // Exclude scientific notation from triggering standard multiplication logic (e.g. 1e-5, 2.5e+3)
+                var isScientificNotation = false
+                if ((c == 'e' || c == 'E') && (next.isDigit() || next == '-' || next == '+')) {
+                    isScientificNotation = true
+                }
+                if (c.isDigit() && (next == 'e' || next == 'E')) {
+                    if (i + 2 < expr.length) {
+                        val afterNext = expr[i + 2]
+                        if (afterNext.isDigit() || afterNext == '-' || afterNext == '+') {
+                            isScientificNotation = true
+                        }
+                    }
+                }
+
+                if (((isCurrentOperand && isNextOpener) || (isCurrentRightBracketOrConst && isNextDigit)) && !isScientificNotation) {
+                    sb.append('*')
+                }
+            }
+        }
+        return sb.toString()
     }
 
     private fun replaceEConstant(expr: String): String {
@@ -445,8 +493,8 @@ class MainActivity : AppCompatActivity() {
             "asin" to { x: Double -> if (x in -1.0..1.0) Math.toDegrees(asin(x)) else Double.NaN },
             "acos" to { x: Double -> if (x in -1.0..1.0) Math.toDegrees(acos(x)) else Double.NaN },
             "atan" to { x: Double -> Math.toDegrees(atan(x)) },
-            "log10" to { x: Double -> if (x > 0) log10(x) else Double.NaN },
-            "log" to { x: Double -> if (x > 0) ln(x) else Double.NaN },
+            "log" to { x: Double -> if (x > 0) log10(x) else Double.NaN },
+            "ln" to { x: Double -> if (x > 0) ln(x) else Double.NaN },
             "sqrt" to { x: Double -> if (x >= 0) sqrt(x) else Double.NaN },
             "abs" to { x: Double -> abs(x) },
             "exp" to { x: Double -> exp(x) }

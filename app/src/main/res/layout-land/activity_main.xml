@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    LANDSCAPE LAYOUT — New concept:
+    ┌─────────────┬──────────────────────────────────┐
+    │             │  Scientific functions (4 rows)    │
+    │   Display   ├──────────────────────────────────┤
+    │    Card     │  Numbers & operators (5 rows)     │
+    └─────────────┴──────────────────────────────────┘
+
+    Left (weight=1): Display card — tall response area
+    Right (weight=2.5): Vertical stack of two grids filling full height
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1C344D"
+    android:orientation="horizontal"
+    android:padding="6dp"
+    tools:context=".MainActivity">
+
+    <!-- LEFT: Display Card — full height on left -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/display_background"
+        android:orientation="vertical"
+        android:padding="14dp"
+        android:layout_margin="4dp"
+        android:gravity="center_vertical|end">
+
+        <TextView
+            android:id="@+id/tvOperation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text=""
+            android:textColor="#556877"
+            android:textSize="18sp"
+            android:fontFamily="monospace"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/tvResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="0"
+            android:textColor="#132232"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:ellipsize="end" />
+    </LinearLayout>
+
+    <!-- RIGHT: two button grids stacked vertically, filling full height -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2.5"
+        android:orientation="vertical">
+
+        <!-- Scientific grid: 4 rows x 5 cols -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:columnCount="5"
+            android:rowCount="4"
+            android:alignmentMode="alignMargins"
+            android:useDefaultMargins="false"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnSin" android:text="SIN" style="@style/CalcButtonBlue" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnCos" android:text="COS" style="@style/CalcButtonBlue" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnTan" android:text="TAN" style="@style/CalcButtonBlue" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnLog" android:text="LOG" style="@style/CalcButtonBlue" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnLn" android:text="LN" style="@style/CalcButtonBlue" />
+
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnSinInv" android:text="SIN⁻¹" style="@style/CalcButtonBlue"/>
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnCosInv" android:text="COS⁻¹" style="@style/CalcButtonBlue"/>
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnTanInv" android:text="TAN⁻¹" style="@style/CalcButtonBlue"/>
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnSqrt" android:text="√" style="@style/CalcButtonBlue" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnX2" android:text="X²" style="@style/CalcButtonBlue" />
+
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnPow" android:text="Xʸ" style="@style/CalcButtonBlue" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn10x" android:text="10ˣ" style="@style/CalcButtonBlue"/>
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnEx" android:text="Eˣ" style="@style/CalcButtonBlue"/>
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnFact" android:text="X!" style="@style/CalcButtonBlue" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnPercent" android:text="%" style="@style/CalcButtonBlue" />
+
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnPi" android:text="Π" style="@style/CalcButtonBlue"/>
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnE" android:text="E" style="@style/CalcButtonBlue"/>
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnAbs" android:text="ABS" style="@style/CalcButtonBlue"/>
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnOpen" android:text="(" style="@style/CalcButtonBlue" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnClose" android:text=")" style="@style/CalcButtonBlue" />
+
+        </GridLayout>
+
+        <!-- Numeric grid: 5 rows x 5 cols -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:columnCount="5"
+            android:rowCount="5"
+            android:alignmentMode="alignMargins"
+            android:useDefaultMargins="false"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnClear" android:text="AC" style="@style/CalcButtonOrange" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btndel" android:text="DEL" style="@style/CalcButtonOrange" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnSto" android:text="STO" style="@style/CalcButtonBlue" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnRcl" android:text="RCL" style="@style/CalcButtonBlue" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnHistory" android:text="H" style="@style/CalcButtonBlue"/>
+
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn7" android:text="7" style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn8" android:text="8" style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn9" android:text="9" style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnDivide" android:text="÷" style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnMPlus" android:text="M+" style="@style/CalcButtonBlue"/>
+
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn4" android:text="4" style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn5" android:text="5" style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn6" android:text="6" style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnMultiply" android:text="×" style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnMMinus" android:text="M-" style="@style/CalcButtonBlue" />
+
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn1" android:text="1" style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn2" android:text="2" style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn3" android:text="3" style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnMinus" android:text="-" style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnAns" android:text="ANS" style="@style/CalcButtonDark" />
+
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn0" android:text="0" style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnDot" android:text="." style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnExp" android:text="EXP" style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnPlus" android:text="+" style="@style/CalcButtonDark" />
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnEquals" android:text="=" style="@style/CalcButtonDark"/>
+
+        </GridLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,13 +1,13 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <solid android:color="#5E7FA8" />
+            <solid android:color="#5CAFD8" />
             <corners
                 android:topLeftRadius="120dp"
                 android:topRightRadius="120dp"
                 android:bottomLeftRadius="180dp"
                 android:bottomRightRadius="180dp" />
-            <stroke android:width="2dp" android:color="#2D4F7C" />
+            <stroke android:width="2dp" android:color="#3C92BC" />
         </shape>
     </item>
 </selector>
